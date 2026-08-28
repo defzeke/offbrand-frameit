@@ -1,12 +1,22 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { Instagram, Linkedin, Facebook } from 'lucide-react';
+import { Instagram, Linkedin, Facebook, X } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import LinkChoiceModal from '@/components/modals/LinkChoiceModal';
 
 export default function LandingFooter() {
   const router = useRouter();
   const pathname = usePathname();
   const currentYear = new Date().getFullYear();
+  const [choiceOpen, setChoiceOpen] = useState(false);
+  const [choicePlatform, setChoicePlatform] = useState<'facebook' | 'instagram' | 'linkedin'>('facebook');
+  const openChoice = (platform: 'facebook' | 'instagram' | 'linkedin', e: React.MouseEvent) => {
+    e.preventDefault();
+    setChoicePlatform(platform);
+    setChoiceOpen(true);
+  };
   // const contactEmail = "contact@frameit.com";
   
 
@@ -36,9 +46,14 @@ export default function LandingFooter() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-6 text-xs items-start">
           <div className="flex flex-col items-start h-full">
             <h3
-              className="text-2xl font-extrabold text-white cursor-pointer hover:opacity-90 transition-opacity drop-shadow-lg tracking-wide mb-2"
+              className="text-2xl font-extrabold text-white cursor-pointer hover:opacity-90 transition-opacity drop-shadow-lg tracking-wide mb-2 flex flex-col items-start gap-1.5"
               onClick={() => router.push('/')}
             >
+              <span className="flex items-center gap-2">
+                <Image src="/ICPEPLogo.webp" alt="ICPEP Logo" width={60} height={45} className="object-contain h-[36px] w-auto" />
+                <X size={16} strokeWidth={2.5} className="text-white/80" aria-hidden="true" />
+                <Image src="/CiscoLogo.webp" alt="Cisco Logo" width={70} height={35} className="object-contain h-[28px] w-auto bg-white/90 rounded-md px-1 py-0.5" />
+              </span>
               <span className="inline-block bg-white/20 px-3 py-1 rounded-xl shadow-md">FrameIt</span>
             </h3>
             <span className="text-blue-100 text-xs mt-2 italic">Create. Frame. Share.</span>
@@ -61,6 +76,7 @@ export default function LandingFooter() {
                   href="https://www.facebook.com/icpepse.pupmanila"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => openChoice('facebook', e)}
                   className="hover:text-yellow-200 transition-colors cursor-pointer font-medium"
                 >
                   Report an Issue
@@ -71,6 +87,7 @@ export default function LandingFooter() {
                   href="https://www.facebook.com/icpepse.pupmanila"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => openChoice('facebook', e)}
                   className="hover:text-yellow-200 transition-colors cursor-pointer font-medium"
                 >
                   Help Center
@@ -86,6 +103,7 @@ export default function LandingFooter() {
                 href="https://www.instagram.com/icpep.se_pup/"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => openChoice('instagram', e)}
                 className="hover:text-yellow-200 transition-colors cursor-pointer"
                 title="Instagram"
               >
@@ -95,6 +113,7 @@ export default function LandingFooter() {
                 href="https://www.facebook.com/icpepse.pupmanila"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => openChoice('facebook', e)}
                 className="hover:text-yellow-200 transition-colors cursor-pointer"
                 title="Facebook"
               >
@@ -104,6 +123,7 @@ export default function LandingFooter() {
                 href="https://www.linkedin.com/company/icpepse-pupmanila/posts/?feedView=all"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => openChoice('linkedin', e)}
                 className="hover:text-yellow-200 transition-colors cursor-pointer"
                 title="LinkedIn"
               >
@@ -115,10 +135,11 @@ export default function LandingFooter() {
 
         <div className="border-t border-blue-200/40 py-3 text-center text-xs text-blue-50 tracking-wide">
           <span className="inline-block bg-white/10 px-3 py-1 rounded-lg shadow-sm">
-            © {currentYear} <span className="font-bold">ICPEP SE - PUP Manila</span>. All rights reserved. | Designed for your story.
+            © {currentYear} <span className="font-bold">ICPEP SE - PUP Manila</span> <span className="opacity-80">×</span> <span className="font-bold">Cisco NetConnect - PUP Manila</span>. All rights reserved. | Designed for your story.
           </span>
         </div>
       </div>
+      <LinkChoiceModal isOpen={choiceOpen} onClose={() => setChoiceOpen(false)} platform={choicePlatform} />
     </footer>
   );
 }

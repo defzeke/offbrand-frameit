@@ -4,6 +4,7 @@
 import { useRouter, usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { X } from 'lucide-react';
 
 export default function Navbar() {
   const router = useRouter();
@@ -64,11 +65,19 @@ export default function Navbar() {
           onClick={handleHomeClick}
         >
           <Image 
-            src="/favicon.ico" 
-            alt="FrameIt Logo" 
-            width={35} 
-            height={35}
+            src="/ICPEPLogo.webp" 
+            alt="ICPEP Logo" 
+            width={45} 
+            height={45}
             className="object-contain"
+          />
+          <X size={16} strokeWidth={2.5} className={scrolled ? 'text-black/60' : 'text-white/80'} aria-hidden="true" />
+          <Image
+            src="/CiscoLogo.webp"
+            alt="Cisco Logo"
+            width={70}
+            height={35}
+            className="object-contain h-[35px] w-auto"
           />
           FrameIt
         </div>
